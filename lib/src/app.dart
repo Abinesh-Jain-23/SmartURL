@@ -1,7 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:smarturl/pages/add_page.dart';
-import 'package:smarturl/pages/auth_page.dart';
 import 'package:smarturl/pages/home_page.dart';
 import 'package:smarturl/pages/view_page.dart';
 
@@ -13,9 +12,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: {
-        '/': (context) => AuthPage(account: account),
+        // '/': (context) => AuthPage(account: account),
         '/home': (context) => HomePage(
               account: account,
               databases: databases,
@@ -26,6 +25,12 @@ class App extends StatelessWidget {
               databases: databases,
             ),
       },
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+        ),
+      ),
     );
   }
 }

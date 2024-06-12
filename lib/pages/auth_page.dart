@@ -47,8 +47,7 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(title: const Text('SmartURL')),
         body: Container(
           padding: const EdgeInsets.all(12),
@@ -107,7 +106,6 @@ class _AuthPageState extends State<AuthPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.of(context).pushNamed('/home'),
           child: const Icon(Icons.home),
-        ),
       ),
     );
   }

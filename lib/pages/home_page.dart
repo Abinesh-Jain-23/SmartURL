@@ -1,11 +1,9 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'dart:js' as js;
-import 'package:flutter/foundation.dart' show kIsWeb;
+// ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final Account account;
   final Databases databases;
 
@@ -15,11 +13,13 @@ class HomePage extends StatelessWidget {
     required this.databases,
   });
 
-  Future<void> triggerlaunchUrl(url) async {
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
-  }
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final baseURL = "https://node-js-nw38.onrender.com/";
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
       body: Container(
           padding: const EdgeInsets.all(12),
           child: FutureBuilder(
-            future: databases.listDocuments(
+            future: widget.databases.listDocuments(
               databaseId: '66693da4001556742582',
               collectionId: '66696cdc000fd5d4b5e2',
             ),
@@ -41,14 +41,23 @@ class HomePage extends StatelessWidget {
                 return ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
-                      print(data[index].data);
+                      final item = data[index];
                       return Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                        decoration: const BoxDecoration(color: Colors.white, 
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
                         child: ListTile(
                           onTap: () async {
-                          Navigator.of(context).pushNamed('/view',  arguments: {'urlData': data[index].data},);
+                            Navigator.of(context).pushNamed(
+                              '/view',
+                              arguments: {
+                                'urlData': data[index].data,
+                                'id': item.$id,
+                              },
+                            );
                           },
                           leading: SvgPicture.asset(
                             "/qr.svg",
@@ -56,8 +65,16 @@ class HomePage extends StatelessWidget {
                             height: 70,
                             fit: BoxFit.cover,
                           ),
-                          title: Text('${data[index].data['fullURL']}', maxLines: 1, overflow: TextOverflow.ellipsis,),
-                          subtitle: Text('${data[index].data['shortURL']}', maxLines: 1, overflow: TextOverflow.ellipsis,),
+                          title: Text(
+                            '${data[index].data['fullURL']}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          subtitle: Text(
+                            '$baseURL${data[index].$id}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       );
                     });
@@ -67,7 +84,9 @@ class HomePage extends StatelessWidget {
             },
           )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed('/add'),
+        onPressed: () => Navigator.of(context)
+            .pushNamed('/add')
+            .then((value) => setState(() {})),
         child: const Icon(Icons.add),
       ),
     );

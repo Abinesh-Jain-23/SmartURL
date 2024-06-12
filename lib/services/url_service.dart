@@ -31,4 +31,16 @@ class UrlService {
   launchShortURL(String url) {
     launchUrl(Uri.parse(url));
   }
+
+  getURL(Map data) async {
+    String appwrite = 'https://66697af7bac31edd6a10.appwrite.global/';
+    try {
+      final res = await dio.post(appwrite, data: data);
+      final resData = res.data;
+      List urls = resData['shortUrls'] ?? [];
+      return urls;
+    } catch (e) {
+      return [];
+    }
+  }
 }
