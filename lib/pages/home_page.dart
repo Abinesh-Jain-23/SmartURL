@@ -1,7 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   final Account account;
@@ -59,12 +58,7 @@ class _HomePageState extends State<HomePage> {
                               },
                             );
                           },
-                          leading: SvgPicture.asset(
-                            "/qr.svg",
-                            width: 70,
-                            height: 70,
-                            fit: BoxFit.cover,
-                          ),
+                          leading: const Icon(Icons.link),
                           title: Text(
                             '${data[index].data['fullURL']}',
                             maxLines: 1,

@@ -3,7 +3,7 @@ import 'package:smarturl/src/app.dart';
 import 'package:appwrite/appwrite.dart';
 
 void main() async {
-
+WidgetsFlutterBinding.ensureInitialized();
 Client client = Client();
   client
       .setEndpoint('https://cloud.appwrite.io/v1')
